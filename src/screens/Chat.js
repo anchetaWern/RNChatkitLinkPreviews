@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { GiftedChat, Send, Message } from 'react-native-gifted-chat';
-import Chatkit from '@pusher/chatkit';
+import { ChatManager, TokenProvider } from '@pusher/chatkit-client';
 import axios from 'axios';
 import Config from 'react-native-config';
 
@@ -49,14 +49,11 @@ class Chat extends Component {
 
 
   async componentDidMount() {
-    const tokenProvider = new Chatkit.TokenProvider({
-      url: CHATKIT_TOKEN_PROVIDER_ENDPOINT
-    });
 
-    const chatManager = new Chatkit.ChatManager({
+    const chatManager = new ChatManager({
       instanceLocator: CHATKIT_INSTANCE_LOCATOR_ID,
       userId: this.user_id,
-      tokenProvider: tokenProvider
+      tokenProvider: new TokenProvider({ url: CHATKIT_TOKEN_PROVIDER_ENDPOINT })
     });
 
     try {
@@ -73,11 +70,11 @@ class Chat extends Component {
 
       const room = response.data;
 
-      this.room_id = parseInt(room.id);
+      this.room_id = room.id.toString();
       await this.currentUser.subscribeToRoom({
         roomId: this.room_id,
         hooks: {
-          onNewMessage: this.onReceive
+          onMessage: this.onReceive
         }
       });
 

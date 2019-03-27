@@ -1,6 +1,8 @@
 # RNChatkitLinkPreviews
 A React Native chat app created with Chatkit with rich link previews.
 
+You can read the full tutorial at: [https://pusher.com/tutorials/link-previews-react-native-chat](https://pusher.com/tutorials/link-previews-react-native-chat)
+
 ### Prerequisites
 
 - React Native development environment
